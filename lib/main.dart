@@ -11,10 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
-        home: const LoginScreen());
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: const NotesScreen(),
+    );
   }
 }
 
@@ -26,10 +27,12 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             const SizedBox(height: 20),
             TextFormField(
@@ -52,41 +55,62 @@ class LoginScreen extends StatelessWidget {
                   labelText: "Password"),
             ),
             const SizedBox(height: 15),
-            SizedBox(
-              width: double.infinity,
-              child: MaterialButton(
-                color: Colors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                onPressed: () {},
-                child: const Text(
-                  "Login",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
+            const Text("Forget your password ?"),
+            const SizedBox(height: 15),
+            Row(
+              // Main  => Horizontal
+              // Cross => Vertical
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 2 / 3
+                Expanded(
+                  flex: 2,
+                  child: MaterialButton(
                     color: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-                onPressed: () {},
-                child: const Text(
-                  "Register",
-                  style: TextStyle(
-                    color: Colors.green,
+                const SizedBox(width: 10),
+                // 1 / 3
+                Expanded(
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: const BorderSide(
+                        color: Colors.green,
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
+            Row(
+              children: const [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                        "Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello "),
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
@@ -146,6 +170,13 @@ class FirstScreen extends StatelessWidget {
               },
               child: const Text("More"),
             ),
+            ElevatedButton.icon(
+              onPressed: () {
+                print('More');
+              },
+              label: const Text("More"),
+              icon: const Icon(Icons.add),
+            ),
             Container(
               padding: const EdgeInsets.all(20),
               width: double.infinity,
@@ -173,4 +204,63 @@ class FirstScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class NotesScreen extends StatelessWidget {
+  const NotesScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Notes")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      body: ListView.builder(
+        itemCount: 40,
+        itemBuilder: (context, index) {
+          return noteItem();
+        },
+      ),
+    );
+  }
+}
+
+Widget noteItem() {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.grey[300],
+      borderRadius: BorderRadius.circular(25),
+    ),
+    margin: const EdgeInsets.all(15),
+    padding: const EdgeInsets.all(15),
+    child: Row(
+      children: [
+        const Expanded(
+          child: Text(
+            "Note 1",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.edit,
+            color: Colors.green,
+          ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+        ),
+      ],
+    ),
+  );
 }

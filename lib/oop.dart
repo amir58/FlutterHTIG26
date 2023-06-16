@@ -16,16 +16,14 @@
 // dataType functionName( parameters ) { bodyFunction }
 // void printMyName(){ print("Amir"); }
 
+import 'package:flutter26/person.dart';
+
 void main() {
-  // final user3 = User();
-  // const user4 = User();
-  User user1 = User("Ahmed", "011");
-  user1.printUserData();
+  var order1 = Order(
+    id: 1,
+    details: 'd',
+  );
 
-  var user2 = User("Mohamed", "010");
-  user2.printUserData();
-
-  var order1 = Order();
   order1.printOrderData();
   print(order1.getOrderStatus());
   order1.changeOrderStatus2("Rejected");
@@ -34,25 +32,37 @@ void main() {
   order1.changeOrderStatus6(orderStatus: 'REFUSED');
   order1.changeOrderStatus7(orderStatus: "FINISHED");
   print(order1.getOrderStatus());
-}
 
-class User {
-  // Constructor => Function
-  String name = "Amir";
-  String phone = "01116036522";
+  order1.namedParameters(text: "text", hint: "hint");
+  order1.defaultParameters("t");
 
-  User(this.name, this.phone);
-
-  void printUserData() {
-    print(name);
-    print(phone);
-  }
+  print('------------------');
+  Person person = Person(
+    "Ahmed",
+    "20",
+  );
+  print(person.getName());
+  person.setName("Ali");
+  print(person.getName());
+  print(person.name);
+  person.name = "Aziz";
+  print(person.name);
 }
 
 class Order {
   int id = 0;
   late String details;
   String? status;
+  late String date;
+
+  Order({required this.id, required this.details, this.status});
+
+  Order.writeName({
+    required this.id,
+    required this.details,
+    this.status,
+    required this.date,
+  }) {}
 
   void printOrderData() {
     // ??=
@@ -108,9 +118,14 @@ class Order {
 
   void changeOrderStatus5({String orderStatus = ""}) => status = orderStatus;
 
-  void changeOrderStatus6({required String orderStatus}) => status = orderStatus;
+  void changeOrderStatus6({required String orderStatus}) =>
+      status = orderStatus;
 
   void changeOrderStatus7({String? orderStatus}) {
     status = orderStatus;
   }
+
+  void defaultParameters(String text, [String hint = ""]) {}
+
+  void namedParameters({required String text, String hint = ""}) {}
 }
