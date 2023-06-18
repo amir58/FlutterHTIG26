@@ -16,7 +16,8 @@
 // dataType functionName( parameters ) { bodyFunction }
 // void printMyName(){ print("Amir"); }
 
-import 'package:flutter26/person.dart';
+
+import 'package:flutter26/dart/person.dart';
 
 void main() {
   var order1 = Order(
