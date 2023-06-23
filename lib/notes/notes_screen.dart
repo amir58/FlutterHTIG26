@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter26/add_new_note_screen.dart';
+import 'package:flutter26/notes/add_new_note_screen.dart';
+import 'package:flutter26/notes/edit_note_screen.dart';
 
 class NotesScreen extends StatefulWidget {
   NotesScreen({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-  final List<String> notes = [];
+  final List<String> notes = []; // List of Strings
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,9 @@ class _NotesScreenState extends State<NotesScreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              navigateToEditNoteScreen(index);
+            },
             icon: const Icon(
               Icons.edit,
               color: Colors.green,
@@ -82,6 +85,23 @@ class _NotesScreenState extends State<NotesScreen> {
         return;
       }
       notes.add(value);
+      setState(() {});
+    });
+  }
+
+  void navigateToEditNoteScreen(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditNoteScreen(
+          note: notes[index],
+        ),
+      ),
+    ).then((value) {
+      print(value);
+      if (value == null) return;
+
+      notes[index] = value;
       setState(() {});
     });
   }
