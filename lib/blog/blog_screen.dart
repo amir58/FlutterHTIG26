@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter26/blog/add_blog_screen.dart';
+import 'package:flutter26/blog/edit_blog_screen.dart';
 import 'package:flutter26/blog/story_view.dart';
 
 import 'blog.dart';
@@ -152,7 +153,9 @@ class _BlogScreenState extends State<BlogScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    navigateToEditBlogScreen(index);
+                  },
                   icon: const Icon(
                     Icons.edit,
                     color: Colors.purple,
@@ -195,6 +198,26 @@ class _BlogScreenState extends State<BlogScreen> {
     ).then((value) {
       Blog blog = value;
       blogs.add(blog);
+      setState(() {});
+    });
+  }
+
+  void navigateToEditBlogScreen(int index) {
+    final Blog blog = blogs[index];
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditBlogScreen(
+          title: blog.title,
+          body: blog.body,
+          imageUrl: blog.imageUrl,
+        ),
+      ),
+    ).then((value) {
+      if (value == null) return;
+      final Blog blog = value;
+      blogs[index] = blog;
       setState(() {});
     });
   }
