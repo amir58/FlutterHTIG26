@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter26/notes/add_new_note_screen.dart';
 import 'package:flutter26/notes/edit_note_screen.dart';
+import 'package:flutter26/notes/notes_login_screen.dart';
 
 class NotesScreen extends StatefulWidget {
   NotesScreen({Key? key}) : super(key: key);
@@ -61,7 +63,25 @@ class _NotesScreenState extends State<NotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Notes")),
+      appBar: AppBar(
+        title: const Text("Notes"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NotesLoginScreen(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.logout,
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           navigateToAddNewNoteScreen();

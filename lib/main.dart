@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter26/blog/blog_screen.dart';
+import 'package:flutter26/notes/notes_login_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'notes/notes_screen.dart';
 
@@ -21,109 +24,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: NotesScreen(),
+      home: navigateToScreen(),
     );
   }
-}
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const SizedBox(height: 20),
-            TextFormField(
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(
-                  Icons.email,
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                  labelText: "Password"),
-            ),
-            const SizedBox(height: 15),
-            const Text("Forget your password ?"),
-            const SizedBox(height: 15),
-            Row(
-              // Main  => Horizontal
-              // Cross => Vertical
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // 2 / 3
-                Expanded(
-                  flex: 2,
-                  child: MaterialButton(
-                    color: Colors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                // 1 / 3
-                Expanded(
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      side: const BorderSide(
-                        color: Colors.green,
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: const [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                        "Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello "),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+  Widget navigateToScreen(){
+    if (FirebaseAuth.instance.currentUser == null) {
+      return NotesLoginScreen();
+    }
+    else{
+      return NotesScreen();
+    }
   }
+
 }
+
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({Key? key}) : super(key: key);
