@@ -1,9 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EditNoteScreen extends StatefulWidget {
-  EditNoteScreen({Key? key, required this.note}) : super(key: key);
+  EditNoteScreen({
+    Key? key,
+    required this.note,
+    required this.id,
+  }) : super(key: key);
 
   final String note;
+  final String id;
 
   @override
   State<EditNoteScreen> createState() => _EditNoteScreenState();
@@ -40,10 +46,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-                onPressed: () {
-                  String note = noteController.text;
-                  Navigator.pop(context, note);
-                },
+                onPressed: () => updateNote(),
                 child: const Text("Update"),
               ),
             ),
@@ -51,5 +54,19 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         ),
       ),
     );
+  }
+
+  updateNote() {
+    String note = noteController.text;
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    Map<String, dynamic> data = {
+      "note": note,
+    };
+
+    firestore.collection("notes").doc(widget.id).update(data);
+
+    Navigator.pop(context, note);
   }
 }

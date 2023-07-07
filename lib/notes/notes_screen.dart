@@ -12,11 +12,13 @@ class NotesScreen extends StatefulWidget {
 
 class _NotesScreenState extends State<NotesScreen> {
   final List<Map<String, dynamic>> notes = [];
+
   // 0 => {note: sleep at 9 pm, id: 1}
   // 1 => {note: note one, id: 1687709515145}
   // 2 => {note: note two, id: 1687709527378}
   // 3 => {note: note three, id: 1687709534016}
-  // 4 => {note: Go to cienma at 5 pm, id: 2}
+  // 4 => {note: Go to cinema at 5 pm, id: 2}
+
   // To get value from map => map['key']
   // notes[0]['id']
 
@@ -27,18 +29,28 @@ class _NotesScreenState extends State<NotesScreen> {
   // 1 => note two
   // 2 => note three
 
-
-
   @override
   void initState() {
     super.initState();
     getNotesFromFirebaseFirestore();
+    // getRealtimeNotesFromFirebaseFirestore();
   }
 
   void getNotesFromFirebaseFirestore() {
     firestore.collection("notes").get().then((value) {
       notes.clear();
       for (var document in value.docs) {
+        final note = document.data();
+        notes.add(note);
+      }
+      setState(() {});
+    });
+  }
+
+  void getRealtimeNotesFromFirebaseFirestore() {
+    firestore.collection("notes").snapshots().listen((event) {
+      notes.clear();
+      for (var document in event.docs) {
         final note = document.data();
         notes.add(note);
       }
@@ -122,14 +134,11 @@ class _NotesScreenState extends State<NotesScreen> {
       MaterialPageRoute(
         builder: (context) => EditNoteScreen(
           note: notes[index]['note'],
+          id: notes[index]['id'],
         ),
       ),
     ).then((value) {
-      print(value);
-      if (value == null) return;
-
-      notes[index] = value;
-      setState(() {});
+      getNotesFromFirebaseFirestore();
     });
   }
 
@@ -137,5 +146,14 @@ class _NotesScreenState extends State<NotesScreen> {
     await firestore.collection("notes").doc(notes[index]['id']).delete();
     notes.removeAt(index);
     setState(() {});
+
+    // firestore
+    //     .collection("notes")
+    //     .doc(notes[index]['id'])
+    //     .delete()
+    //     .then((value) {
+    //   notes.removeAt(index);
+    //   setState(() {});
+    // });
   }
 }
