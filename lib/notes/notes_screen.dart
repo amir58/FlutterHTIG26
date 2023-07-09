@@ -39,7 +39,10 @@ class _NotesScreenState extends State<NotesScreen> {
   }
 
   void getNotesFromFirebaseFirestore() {
-    firestore.collection("notes").get().then((value) {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    firestore.collection("notes").where("userId", isEqualTo: userId)
+        .get().then((value) {
       notes.clear();
       for (var document in value.docs) {
         final note = document.data();
