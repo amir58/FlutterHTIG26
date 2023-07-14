@@ -2,6 +2,7 @@
     package="com.companyname.appname.flutter26">
    <application
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:label="flutter26"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
